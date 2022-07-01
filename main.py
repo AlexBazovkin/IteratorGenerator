@@ -1,3 +1,6 @@
+from decorator import logger
+
+
 nested_list = [
     ['a', 'b', 'c'],
     ['d', 'e', 'f', 'h', False],
@@ -22,30 +25,36 @@ class MyClass:
                 if self.y == len(self.incoming_list[self.x]):
                     self.y -= len(self.incoming_list[self.x])
                     self.x += 1
+                return result
+
         else:
             raise StopIteration
-        return result
 
 
-# Вывод каждого элемента -----------------
-for item in MyClass(nested_list):
-    print(item)
-
-print("*"*20)
+# # Вывод каждого элемента -----------------
+# for item in MyClass(nested_list):
+#     print(item)
+#
+# print("*"*20)
 
 # Вывод в одну строку -------------------
-flat_list = [item for item in MyClass(nested_list)]
-print(flat_list)
-
-print("*"*30)
-
-
-# Создание и вывод генератора ----------------
-def flat_generator(incoming_list):
-    for list_ in incoming_list:
-        for el in list_:
-            yield el
+@logger()
+def make_flat_list(some_data):
+    flat_list = [item for item in some_data]
+    return flat_list
 
 
-for item in flat_generator(nested_list):
-    print(item)
+print(make_flat_list(MyClass(nested_list)))
+
+# print("*"*30)
+#
+#
+# # Создание и вывод генератора ----------------
+# def flat_generator(incoming_list):
+#     for list_ in incoming_list:
+#         for el in list_:
+#             yield el
+#
+#
+# for item in flat_generator(nested_list):
+#     print(item)
